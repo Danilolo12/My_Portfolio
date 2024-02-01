@@ -1,0 +1,34 @@
+---
+import ExperienceItem from "./ExperienceItem.astro"
+const EXPERIENCIE = [
+  {
+    date: "Actualmente...",
+    title: "Desarrollador de Sotware Movil − Freelance",
+    description:
+      "Analizo y desarrollo Software a la medida En las tecnologias mas actuales del mercado. (Flutter, Dart, JavaScript, TypeScript, PHP, Node.js , React.js, Astro, Pyton, Express.js, MySql, Sql, Fire-Base, MongoDB)",
+    link: "https://www.linkedin.com/in/daniel-ramos-1670252b2/",
+  },
+  {
+    date: "Enero 2023 - Agosto 2023",
+    title: "Desarrollador Web FullStack   − Canal Capital",
+    description:
+      "Desarrollar el ERP de la empresa en Aplicacion web, utilizando los lenguajes de Programacion PHP (Para el Backed) React.js (Para el Frontend), y Frameworks como Boostrap, FontAwesome, Google Fonts. Tambien se tuvo que Analizar y Crear la Base de datos de la empresa en MySql, al finalizar el desarrollo, se hizo el despligue de la App. ",
+  },
+  {
+    date: "Enero 2022 - Diciembre 2022",
+    title: "Desarrollador Web FullStack   − Freelance",
+    description:
+      "Desarrollar App Web, se desarrollo una App FullStack cuyas funciones son analizar el recorido segun el trayecto que se tome, esto se realizo consuminedo la API de MapBox, en el Backend de la app de desarrollo en Node.js, Express.js y el Front en React.js con manejo de hooks y componentes funcionales, y una base de datos creada en FireBase. ",
+  },
+]
+---
+
+<ol class="relative mt-16">
+  {
+    EXPERIENCIE.map((experiencie) => (
+      <li class="">
+        <ExperienceItem {...experiencie} />
+      </li>
+    ))
+  }
+</ol>
