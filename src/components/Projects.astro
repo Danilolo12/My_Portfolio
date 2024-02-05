@@ -5,6 +5,8 @@ import Tailwind from "./icons/Tailwind.astro"
 import Flutter from "./icons/Flutter.astro"
 import ReactJS from "./icons/React.astro"
 import Dart from "./icons/Dart.astro"
+import AstroJS from "./icons/Astro.astro"
+import TsJs from "./icons/Ts.astro"
 import Link from "./icons/Link.astro"
 import LinkButton from "./LinkButton.astro"
 
@@ -14,10 +16,20 @@ const TAGS = {
     class: "bg-teal-950 text-white",
     icon: NodeJS,
   },
+  TS: {
+    name: "TypeScript",
+    class: "bg-sky-900 text-white",
+    icon: TsJs,
+  },
   REACT: {
     name: "React.js",
     class: "bg-sky-950 text-white",
     icon: ReactJS,
+  },
+  ASTRO: {
+    name: "Astro",
+    class: "bg-sky-950 text-white",
+    icon: AstroJS,
   },
   FLUTTER: {
     name: "Flutter",
@@ -30,7 +42,7 @@ const TAGS = {
     icon: Dart,
   },
   TAILWIND: {
-    name: "Tailwind CSS",
+    name: "Tailwind-CSS",
     class: "bg-[#003159] text-white",
     icon: Tailwind,
   },
@@ -43,7 +55,7 @@ const PROJECTS = [
     link: "https://mappsdev.netlify.app/",
     github: "https://github.com/Danilolo12/Mapbox-Con-TypeScript-y-React",
     image: "/images/mapps.webp",
-    tags: [TAGS.NODE, TAGS.REACT, TAGS.TAILWIND ],
+    tags: [TAGS.NODE, TAGS.REACT, TAGS.TS, TAGS.TAILWIND ],
   },
   {
     title: "MoviApp",
@@ -52,6 +64,14 @@ const PROJECTS = [
     github: "https://github.com/Danilolo12/Moviapp",
     image: "/images/moviapp.webp",
     tags: [TAGS.FLUTTER, TAGS.DART, TAGS.TAILWIND],
+  },
+  {
+    title: "Spotify-clone",
+    description:
+      "Contiene un clon del popular servicio de música Spotify construido utilizando Astro, un moderno generador de sitios front-end que ofrece rendimiento increíblemente rápido. Es una herramienta educativa diseñada para aquellos interesados en aprender cómo se construyen aplicaciones web modernas utilizando Astro",
+    github: "https://github.com/Danilolo12/Spotify-clone/tree/master",
+    image: "/images/Spotify.webp",
+    tags: [TAGS.ASTRO, TAGS.REACT, TAGS.TS, TAGS.TAILWIND],
   },
 ]
 ---
