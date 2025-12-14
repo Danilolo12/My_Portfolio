@@ -1,26 +1,26 @@
 ---
 const navItems = [
   {
-    title: "Experiencia",
+    title: "Experience",
     label: "experiencia",
     url: "/#experiencia",
   },
   {
-    title: "Proyectos",
+    title: "Projects",
     label: "proyectos",
     url: "/#proyectos",
   },
   {
-    title: "Sobre mí",
+    title: "About",
     label: "sobre-mi",
     url: "/#sobre-mi",
   },
   {
-    title: "Contacto",
+    title: "Contact",
     label: "contacto",
-    url: "/#contacto",
+    url: "mailto:danieleduardoramos977@gmail.com",
   },
-]
+];
 ---
 
 <header
@@ -30,7 +30,7 @@ const navItems = [
     {
       navItems.map((link) => (
         <a
-          class="relative block px-2 py-2 transition hover:text-yellow-500 dark:hover:text-yellow-400"
+          class="relative block px-2 py-2 transition hover:text-sky-500 dark:hover:text-sky-400"
           aria-label={link.label}
           href={link.url}
         >
@@ -43,40 +43,40 @@ const navItems = [
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const sections = document.querySelectorAll("section")
-    const navItems = document.querySelectorAll("header nav a")
+    const sections = document.querySelectorAll("section");
+    const navItems = document.querySelectorAll("header nav a");
 
     const callback = (entries: any[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           navItems.forEach((item) => {
             if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add("text-yellow-500")
+              item.classList.add("text-sky-500");
             } else {
-              item.classList.remove("text-yellow-500")
+              item.classList.remove("text-sky-500");
             }
-          })
+          });
         }
-      })
-    }
+      });
+    };
 
     const observer = new IntersectionObserver(callback, {
       root: null,
       rootMargin: "0px",
       threshold: 0.3,
-    })
+    });
 
     sections.forEach((section) => {
-      observer.observe(section)
-    })
+      observer.observe(section);
+    });
 
     // Cleanup function
     document.onvisibilitychange = () => {
       if (document.visibilityState === "hidden") {
-        observer.disconnect()
+        observer.disconnect();
       }
-    }
-  })
+    };
+  });
 </script>
 
 <style>

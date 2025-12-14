@@ -1,33 +1,69 @@
 ---
-import ExperienceItem from "./ExperienceItem.astro"
+import ExperienceItem from "./ExperienceItem.astro";
 const EXPERIENCIE = [
   {
-    date: "Marzo 2024 - Actualmente...",
-    title: "Desarrollador Web FullStack   − Conalca S.A.S",
-    description:
-      "Desarrollo De Proyectos Automatizados con IA, Creados en un lenguaje de Programación Python con un manejo de su Framework Django, Implementacion y subida de proyectos en AWS, configuarion de entonos virtuales en AWS (AMAZON WEB SERVICE), creacion de IP elasticas con conexion a subdominios de la empresa, Desarrollo de de automatizaciones con WebScraping , Creacion de proyectos cuyo funcionaminento es IA para la empresa",
+    date: "March 2025 – Present",
+    title: "Full-Stack Developer − Space Eyes ",
+    description: `
+      <ul class="list-disc pl-5 space-y-2 mt-2">
+        <li>Designed and implemented robust backend architectures in <strong>Python</strong>, orchestrating end-to-end project bootstrapping and deployment using <strong>Docker</strong>.</li>
+        <li>Engineered high-performance web scrapers with <strong>Python (BeautifulSoup, Selenium)</strong> to harvest real-time geospatial intelligence from <strong>Sentinel</strong> and <strong>NASA FIRMS</strong>.</li>
+        <li>Developed and consumed <strong>RESTful APIs</strong> to stream satellite-derived wildfire data into the <strong>FireWatch, SeaWatch</strong> application.</li>
+        <li>Integrated Google Street View API & <strong>Three.js</strong> for immersive 3D visualizations of fire-impacted regions.</li>
+        <li>Visualized dynamic spatial datasets using <strong>Mapbox GL JS</strong> with responsive, real-time map layers.</li>
+        <li>Architected event-driven microservices on <strong>AWS Lambda</strong> for scalable data processing.</li>
+        <li>Built type-safe frontend experiences with <strong>React</strong> and <strong>TypeScript</strong>.</li>
+      </ul>
+    `,
+    link: "",
+  },
+  {
+    date: "March 2024 – February 2025",
+    title: "Full-Stack Developer − Conalca S.A.S",
+    description: `
+      <ul class="list-disc pl-5 space-y-2 mt-2">
+        <li>Developed automated AI-driven projects using <strong>Python</strong> and the <strong>Django</strong> framework.</li>
+        <li>Implemented and deployed cloud infrastructure on <strong>AWS</strong>, configuring virtual environments, Elastic IPs, and subdomains.</li>
+        <li>Created automated workflows using <strong>Web Scraping</strong> and developed internal AI tools to optimize business processes.</li>
+      </ul>
+    `,
     link: "https://www.linkedin.com/in/daniel-ramos-1670252b2/",
   },
   {
-    date: "Octubre 2023 - Marzo 2024",
-    title: "Desarrollador de Sotware Movil − Freelance",
-    description:
-      "Analizo y desarrollo Software a la medida En las tecnologias mas actuales del mercado. (Flutter, Dart, JavaScript, TypeScript, PHP, Node.js , React.js, Astro, Pyton, Express.js, MySql, Sql, Fire-Base, MongoDB)",
+    date: "October 2023 – March 2024",
+    title: "Mobile Software Developer − Freelance",
+    description: `
+      <ul class="list-disc pl-5 space-y-2 mt-2">
+        <li>Analyzed and developed custom software solutions using modern tech stacks including <strong>Flutter</strong>, <strong>Dart</strong>, and <strong>Node.js</strong>.</li>
+        <li>Integrated diverse technologies such as <strong>Firebase</strong>, <strong>MongoDB</strong>, and <strong>MySQL</strong> for robust data management.</li>
+        <li>Delivered cross-platform applications ensuring high performance on both mobile and web platforms.</li>
+      </ul>
+    `,
     link: "https://www.linkedin.com/in/daniel-ramos-1670252b2/",
   },
   {
-    date: "Enero 2023 - Agosto 2023",
-    title: "Desarrollador Web FullStack   − Canal Capital",
-    description:
-      "Desarrollar el ERP de la empresa en Aplicacion web, utilizando los lenguajes de Programacion PHP (Para el Backed) React.js (Para el Frontend), y Frameworks como Boostrap, FontAwesome, Google Fonts. Tambien se tuvo que Analizar y Crear la Base de datos de la empresa en MySql, al finalizar el desarrollo, se hizo el despligue de la App. ",
+    date: "January 2023 – August 2023",
+    title: "Full-Stack Developer − Canal Capital",
+    description: `
+      <ul class="list-disc pl-5 space-y-2 mt-2">
+        <li>Developed a comprehensive corporate ERP web application using <strong>PHP</strong> for the backend and <strong>React.js</strong> for the frontend.</li>
+        <li>Designed and managed the <strong>MySQL</strong> database architecture to support complex business logic.</li>
+        <li>Utilized <strong>Bootstrap</strong> and <strong>FontAwesome</strong> to create a responsive and user-friendly interface.</li>
+      </ul>
+    `,
   },
   {
-    date: "Enero 2022 - Diciembre 2022",
-    title: "Desarrollador Web FullStack   − Freelance",
-    description:
-      "Desarrollar App Web, se desarrollo una App FullStack cuyas funciones son analizar el recorido segun el trayecto que se tome, esto se realizo consuminedo la API de MapBox, en el Backend de la app de desarrollo en Node.js, Express.js y el Front en React.js con manejo de hooks y componentes funcionales, y una base de datos creada en FireBase. ",
+    date: "January 2022 – December 2022",
+    title: "Full-Stack Developer − Freelance",
+    description: `
+      <ul class="list-disc pl-5 space-y-2 mt-2">
+        <li>Built a full-stack route tracking application consuming the <strong>Mapbox API</strong> for real-time location analysis.</li>
+        <li>Developed a robust backend with <strong>Node.js</strong> and <strong>Express.js</strong>, coupled with a <strong>React.js</strong> frontend using custom hooks.</li>
+        <li>Implemented real-time data synchronization using <strong>Firebase</strong>.</li>
+      </ul>
+    `,
   },
-]
+];
 ---
 
 <ol class="relative mt-16">

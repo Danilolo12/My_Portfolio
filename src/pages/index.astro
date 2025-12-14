@@ -1,33 +1,32 @@
 ---
-import Layout from "@/layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro";
 
-import AboutMe from "@/components/AboutMe.astro"
-import Briefcase from "@/components/icons/Briefcase.astro"
-import CodeIcon from "@/components/icons/Code.astro"
-import Experience from "@/components/Experience.astro"
-import ProfileCheck from "@/components/icons/ProfileCheck.astro"
-import Projects from "@/components/Projects.astro"
-import SectionContainer from "@/components/SectionContainer.astro"
-import Hero from "@/components/Hero.astro"
+import AboutMe from "@/components/AboutMe.astro";
+import Briefcase from "@/components/icons/Briefcase.astro";
+import CodeIcon from "@/components/icons/Code.astro";
+import Experience from "@/components/Experience.astro";
+import ProfileCheck from "@/components/icons/ProfileCheck.astro";
+import Projects from "@/components/Projects.astro";
+import SectionContainer from "@/components/SectionContainer.astro";
+import Hero from "@/components/Hero.astro";
 ---
 
 <Layout
-  title="Porfolio de Daniel Ramos - Desarrollador y Programador Web y Movil con 3 años de experiencia"
-  description="Contrata a Daniel Ramos para crear tu aplicación web o móvil. Desarrollador Web y Movil. Especializado en crear aplicaciones únicas."
+  title="Daniel Ramos Portfolio - Full-Stack Developer with 3+ years experience"
+  description="Hire Daniel Ramos to create your web or mobile application. Full-Stack Developer specialized in building unique applications."
 >
   <main class="px-4">
     <SectionContainer class="py-16 md:py-36">
-      <Hero>
-      </slot>
-    </Hero>
+      <Hero />
     </SectionContainer>
-    <div class="space-y-25">
+  </main>
+  <div class="space-y-25">
     <SectionContainer id="experiencia">
       <h2
         class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
       >
         <Briefcase class="size-8" />
-        Experiencia laboral
+        Work Experience
       </h2>
       <Experience />
     </SectionContainer>
@@ -37,7 +36,7 @@ import Hero from "@/components/Hero.astro"
         class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
       >
         <CodeIcon class="size-7" />
-        Proyectos
+        Projects
       </h2>
       <Projects />
     </SectionContainer>
@@ -47,10 +46,9 @@ import Hero from "@/components/Hero.astro"
         class="flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white"
       >
         <ProfileCheck class="size-8" />
-        Sobre mi
+        About Me
       </h2>
       <AboutMe />
     </SectionContainer>
   </div>
-  </main>
 </Layout>

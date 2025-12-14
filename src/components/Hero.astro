@@ -1,19 +1,18 @@
 ---
-const personalImageAlt = "Daniel Ramos"
-import Badge from "@/components/Badge.astro"
-import LinkedInIcon from "@/components/icons/LinkedIn.astro"
-import MailIcon from "@/components/icons/Mail.astro"
-import Download from "./icons/download.astro"
-import SocialPill from "@/components/SocialPill.astro"
-import GitHub from "./icons/GitHub.astro"
+const personalImageAlt = "Daniel Ramos";
+import Badge from "@/components/Badge.astro";
+import LinkedInIcon from "@/components/icons/LinkedIn.astro";
+import MailIcon from "@/components/icons/Mail.astro";
+import Download from "./icons/download.astro";
+import SocialPill from "@/components/SocialPill.astro";
+import GitHub from "./icons/GitHub.astro";
 ---
 
 <div class="max-w-xl">
   <div class="flex gap-4 mb-4">
     <img
-      class="rounded-full shadow-xlg size-20"
-      
-      src="./images/foto_face.webp" alt="dev_lolo Foto"
+      class="rounded-full shadow-lg size-20"
+      src="./images/Perfil.webp"
       alt={personalImageAlt}
     />
     <a
@@ -22,26 +21,24 @@ import GitHub from "./icons/GitHub.astro"
       rel="noopener"
       class="flex items-center transition md:justify-center md:hover:scale-105"
     >
-      <Badge>Disponible para trabajar</Badge>
+      <Badge>Available for work</Badge>
     </a>
   </div>
   <h1
     class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
   >
-    Hey, soy Daniel
+    Hey, I'm Daniel
   </h1>
   <p
-    class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300"
+    class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-sky-200 [&>strong]:text-sky-500 [&>strong]:font-semibold dark:text-gray-300"
   >
-    +3 años de experiencia. <strong
-      >Ingeniero de Software, Analista y Programador</strong
-    > de Colombia. Especializado en el desarrollo de aplicaciones web y Moviles
-    únicas.
+    +3 years of experience. <strong>Full-Stack Developer</strong> based in Colombia.
+    Specialized in building unique web and mobile applications.
   </p>
   <nav class="flex flex-wrap gap-4 mt-8">
     <SocialPill href="mailto:danieleduardoramos977@gmail.com">
       <MailIcon class="size-4" />
-      Contáctame
+      Contact me
     </SocialPill>
     <SocialPill href="https://www.linkedin.com/in/daniel-ramos-1670252b2/">
       <LinkedInIcon class="size-4" />
@@ -51,9 +48,12 @@ import GitHub from "./icons/GitHub.astro"
       <GitHub class="size-4" />
       GitHub
     </SocialPill>
-    <SocialPill href="/Currículum Daniel Ramos Actualizado 2.0.pdf" download="Currículum Daniel Ramos Actualizado.pdf">
+    <SocialPill
+      href="/Currículum Daniel Ramos Actualizado 2.0.pdf"
+      download="Daniel Ramos Resume.pdf"
+    >
       <Download class="size-4" />
-      Curriculum
+      CV
     </SocialPill>
   </nav>
 </div>
