@@ -8,11 +8,8 @@ interface Props {
   project: Project
   widths: number[]
   sizes: string
-  /**
-   * `cover` crops to a uniform tile (grids); `contain` letterboxes instead, so
-   * portrait phone screenshots and wide dashboards both stay readable.
-   */
-  fit?: 'cover' | 'contain'
+  /** Where this is rendered; the component picks the presentation from there. */
+  context: 'card' | 'detail'
   loading?: 'lazy' | 'eager'
   class?: string
 }
@@ -21,31 +18,86 @@ const {
   project,
   widths,
   sizes,
-  fit = 'cover',
+  context,
   loading = 'lazy',
   class: className = '',
 } = Astro.props
 
 const { cover, coverAlt, title, glyph } = project.data
 
-const FIT = {
-  cover: 'object-cover object-top',
-  contain: 'bg-surface/40 object-contain',
-} as const
+/**
+ * A phone capture cropped to a wide card tile shows nothing but the status
+ * bar, so portrait shots are staged as a device instead: large, centred, and
+ * running off the bottom edge. Landscape shots crop to the tile as usual.
+ */
+const portrait = cover ? cover.height > cover.width : false
+const presentation = !cover
+  ? 'glyph'
+  : context === 'detail'
+    ? 'contain'
+    : portrait
+      ? 'device'
+      : 'tile'
+
+const alt = coverAlt ?? `${title} screenshot`
 ---
 
+{presentation === 'glyph' && <ProjectGlyph glyph={glyph} class={className} />}
+
 {
-  cover ? (
+  presentation === 'tile' && (
     <Image
-      src={cover}
-      alt={coverAlt ?? `${title} screenshot`}
+      src={cover!}
+      alt={alt}
       widths={widths}
       sizes={sizes}
       loading={loading}
       decoding="async"
-      class:list={['w-full', FIT[fit], className]}
+      class:list={['w-full object-cover object-top', className]}
     />
-  ) : (
-    <ProjectGlyph glyph={glyph} class={className} />
   )
 }
+
+{
+  presentation === 'contain' && (
+    <Image
+      src={cover!}
+      alt={alt}
+      widths={widths}
+      sizes={sizes}
+      loading={loading}
+      decoding="async"
+      class:list={['stage w-full object-contain', className]}
+    />
+  )
+}
+
+{
+  presentation === 'device' && (
+    <div class:list={['stage relative overflow-hidden', className]}>
+      <Image
+        src={cover!}
+        alt={alt}
+        widths={widths}
+        sizes={sizes}
+        loading={loading}
+        decoding="async"
+        class="absolute left-1/2 top-7 w-[34%] -translate-x-1/2 rounded-[0.6rem] shadow-2xl shadow-black/40 ring-1 ring-black/20"
+      />
+    </div>
+  )
+}
+
+<style>
+  /* Same wash the glyphs sit on, so a staged capture reads as a product shot
+     rather than an image that failed to fill its box. */
+  .stage {
+    background:
+      radial-gradient(
+        120% 100% at 50% 0%,
+        var(--color-raised) 0%,
+        var(--color-surface) 55%,
+        var(--color-canvas) 100%
+      );
+  }
+</style>

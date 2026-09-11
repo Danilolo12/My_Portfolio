@@ -6,6 +6,8 @@ context: Personal product, built with a co-founder
 year: 2026
 role: Product engineering & architecture
 glyph: mobile
+cover: ./finymo.png
+coverAlt: Finymo dashboard showing the loan portfolio, monthly balance and natilleras
 featured: true
 confidential: false
 stack:
