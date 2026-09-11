@@ -1,0 +1,20 @@
+---
+import Chip from './Chip.astro'
+
+interface Props {
+  items: readonly string[]
+  /** Collapse the tail into a "+N" chip so cards keep a predictable height. */
+  limit?: number
+  class?: string
+}
+
+const { items, limit, class: className = '' } = Astro.props
+
+const shown = limit ? items.slice(0, limit) : items
+const hidden = items.length - shown.length
+---
+
+<ul class:list={['flex flex-wrap gap-1.5', className]}>
+  {shown.map((item) => <li><Chip>{item}</Chip></li>)}
+  {hidden > 0 && <li><Chip>+{hidden}</Chip></li>}
+</ul>

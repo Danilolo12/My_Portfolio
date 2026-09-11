@@ -1,0 +1,29 @@
+---
+interface Metric {
+  value: string
+  label: string
+}
+
+interface Props {
+  items: readonly Metric[]
+  class?: string
+}
+
+const { items, class: className = '' } = Astro.props
+---
+
+{
+  items.length > 0 && (
+    <dl class:list={['grid gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-4', className]}>
+      {items.map(({ value, label }) => (
+        <div class="border-t border-line pt-3">
+          <dt class="sr-only">{label}</dt>
+          <dd class="font-mono text-xl font-medium tracking-tight text-accent">
+            {value}
+          </dd>
+          <p class="mt-1 text-xs leading-snug text-muted">{label}</p>
+        </div>
+      ))}
+    </dl>
+  )
+}

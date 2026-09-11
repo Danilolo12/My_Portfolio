@@ -1,0 +1,18 @@
+---
+import Section from '@/components/ui/Section.astro'
+import TimelineEntry from '@/components/sections/TimelineEntry.astro'
+import { getTimeline } from '@/lib/content'
+
+const jobs = await getTimeline()
+---
+
+<Section
+  id="experience"
+  index="02 / Experience"
+  title="Where the reps came from"
+  lede="Defense and monitoring systems, AI infrastructure, automation and media platforms — mostly remote, mostly as the person who owned the whole vertical slice."
+>
+  <ol class="[&>li:last-child>div]:border-transparent [&>li:last-child>div]:pb-0">
+    {jobs.map((job) => <TimelineEntry job={job} />)}
+  </ol>
+</Section>

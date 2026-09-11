@@ -1,0 +1,22 @@
+---
+import Base from '@/layouts/Base.astro'
+import Button from '@/components/ui/Button.astro'
+import Icon from '@/components/icons/Icon.astro'
+import ShortcutHint from '@/components/ui/ShortcutHint.astro'
+---
+
+<Base title="404 — Page not found" description="This page does not exist.">
+  <section class="flex min-h-[70dvh] flex-col items-center justify-center text-center">
+    <p class="label">Error 404</p>
+    <h1 class="mt-4 text-title font-semibold">This route was never deployed</h1>
+    <p class="mt-3 max-w-sm leading-relaxed text-muted">
+      The page you asked for does not exist. Press <ShortcutHint
+        class="rounded border border-line bg-raised px-1.5 py-0.5"
+      /> to search, or head back.
+    </p>
+    <Button href="/" variant="primary" class="mt-8">
+      <Icon name="arrowLeft" class="size-4" />
+      Back home
+    </Button>
+  </section>
+</Base>

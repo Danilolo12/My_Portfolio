@@ -1,0 +1,106 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import { Font } from 'astro:assets'
+
+import Backdrop from '@/components/layout/Backdrop.astro'
+import CommandPalette from '@/components/layout/CommandPalette.astro'
+import Footer from '@/components/layout/Footer.astro'
+import Header from '@/components/layout/Header.astro'
+import { profile, seo, socials } from '@/data/site'
+import '@/styles/global.css'
+
+interface Props {
+  title?: string
+  description?: string
+  /** Case-study pages get a back link instead of the section nav. */
+  compactHeader?: boolean
+}
+
+const {
+  title = seo.title,
+  description = seo.description,
+  compactHeader = false,
+} = Astro.props
+
+const canonical = new URL(Astro.url.pathname, Astro.site)
+const ogImage = new URL(seo.ogImage, Astro.site)
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.fullName,
+  alternateName: profile.name,
+  jobTitle: profile.role,
+  email: `mailto:${profile.email}`,
+  url: canonical.origin,
+  image: ogImage.href,
+  address: { '@type': 'PostalAddress', addressLocality: profile.location },
+  sameAs: socials.filter((s) => s.icon !== 'mail').map((s) => s.href),
+}
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={profile.fullName} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={seo.locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <Font cssVariable="--font-geist" preload />
+    <Font cssVariable="--font-geist-mono" />
+
+    <script is:inline>
+      // Applied before first paint so the page never flashes the wrong theme.
+      const apply = () => {
+        const saved = localStorage.getItem('theme')
+        const prefersLight = matchMedia('(prefers-color-scheme: light)').matches
+        document.documentElement.dataset.theme =
+          saved ?? (prefersLight ? 'light' : 'dark')
+      }
+      apply()
+      document.addEventListener('astro:after-swap', apply)
+    </script>
+
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(jsonLd)}
+    />
+
+    <ClientRouter />
+  </head>
+
+  <body class="min-h-dvh antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:text-canvas"
+    >
+      Skip to content
+    </a>
+
+    <Backdrop />
+    <Header compact={compactHeader} />
+
+    <main id="main" class="mx-auto w-full max-w-5xl px-5 sm:px-8">
+      <slot />
+    </main>
+
+    <Footer />
+    <CommandPalette />
+  </body>
+</html>

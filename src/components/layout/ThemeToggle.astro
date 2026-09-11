@@ -1,0 +1,40 @@
+---
+import Icon from '@/components/icons/Icon.astro'
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  class="theme-toggle inline-flex size-9 items-center justify-center rounded-full border border-transparent text-muted transition-colors hover:bg-raised hover:text-fg"
+  aria-label="Toggle colour theme"
+>
+  <Icon name="sun" class="icon-sun size-4" />
+  <Icon name="moon" class="icon-moon size-4" />
+</button>
+
+<style>
+  /* Show the theme you would switch *to*. */
+  .icon-sun,
+  .icon-moon {
+    display: none;
+  }
+  :global([data-theme='dark']) .icon-sun {
+    display: block;
+  }
+  :global([data-theme='light']) .icon-moon {
+    display: block;
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    for (const button of document.querySelectorAll('[data-theme-toggle]')) {
+      button.addEventListener('click', () => {
+        const root = document.documentElement
+        const next = root.dataset['theme'] === 'dark' ? 'light' : 'dark'
+        root.dataset['theme'] = next
+        localStorage.setItem('theme', next)
+      })
+    }
+  })
+</script>

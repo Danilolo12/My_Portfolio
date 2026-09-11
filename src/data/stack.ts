@@ -1,0 +1,71 @@
+/** Grouped so the section reads as capability areas rather than a keyword dump. */
+export const stackGroups = [
+  {
+    title: 'Languages',
+    note: 'Daily drivers, in rough order of use',
+    items: ['TypeScript', 'Python', 'JavaScript', 'Dart', 'SQL', 'PHP'],
+  },
+  {
+    title: 'Backend',
+    note: 'Services, APIs and background work',
+    items: [
+      'FastAPI',
+      'Node.js',
+      'Express',
+      'NestJS',
+      'Django',
+      'SQLAlchemy',
+      'Prisma',
+      'GraphQL',
+      'RabbitMQ',
+    ],
+  },
+  {
+    title: 'AI engineering',
+    note: 'Retrieval, agents and LLM operations',
+    items: [
+      'LangGraph',
+      'LangChain',
+      'OpenAI',
+      'Gemini',
+      'pgvector',
+      'Qdrant',
+      'ChromaDB',
+      'Pydantic',
+      'Whisper',
+    ],
+  },
+  {
+    title: 'Frontend & mobile',
+    note: 'Interfaces for web, desktop and device',
+    items: [
+      'React',
+      'Next.js',
+      'Astro',
+      'React Native',
+      'Expo',
+      'Flutter',
+      'Tailwind CSS',
+      'TanStack Query',
+    ],
+  },
+  {
+    title: 'Data',
+    note: 'Where state actually lives',
+    items: ['PostgreSQL', 'Supabase', 'MongoDB', 'MySQL', 'Firebase', 'Redis'],
+  },
+  {
+    title: 'Platform',
+    note: 'Shipping and keeping it up',
+    items: [
+      'Docker',
+      'AWS',
+      'GCP',
+      'GitHub Actions',
+      'Alembic',
+      'pytest',
+      'EAS Build',
+      'Azure DevOps',
+    ],
+  },
+] as const

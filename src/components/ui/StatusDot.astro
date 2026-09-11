@@ -1,0 +1,21 @@
+---
+interface Props {
+  active?: boolean
+  class?: string
+}
+
+const { active = true, class: className = '' } = Astro.props
+---
+
+<span class:list={['relative flex size-2 shrink-0', className]}>
+  {
+    active && (
+      <span class="absolute inset-0 animate-ping rounded-full bg-signal opacity-60" />
+    )
+  }
+  <span
+    class:list={[
+      'relative size-2 rounded-full',
+      active ? 'bg-signal' : 'bg-subtle',
+    ]}></span>
+</span>

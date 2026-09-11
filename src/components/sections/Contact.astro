@@ -1,0 +1,42 @@
+---
+import Icon from '@/components/icons/Icon.astro'
+import Button from '@/components/ui/Button.astro'
+import StatusDot from '@/components/ui/StatusDot.astro'
+import { profile, resume } from '@/data/site'
+---
+
+<section class="reveal py-20 md:py-28">
+  <div
+    class="relative overflow-hidden rounded-2xl border border-line bg-surface/40 px-6 py-12 text-center sm:px-12 md:py-16"
+  >
+    <div
+      class="pointer-events-none absolute inset-x-0 -top-24 mx-auto size-64 rounded-full bg-accent opacity-[0.07] blur-3xl"
+      aria-hidden="true"
+    >
+    </div>
+
+    <p class="inline-flex items-center gap-2 text-sm text-muted">
+      <StatusDot active={profile.available} />
+      {profile.availability}
+    </p>
+
+    <h2 class="mx-auto mt-5 max-w-xl text-title font-semibold text-balance">
+      Got something hard to build?
+    </h2>
+    <p class="mx-auto mt-4 max-w-md leading-relaxed text-muted text-balance">
+      I am most useful on systems where correctness, latency or scale is the
+      actual problem. Tell me what is breaking.
+    </p>
+
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-2.5">
+      <Button href={`mailto:${profile.email}`} variant="primary">
+        <Icon name="mail" class="size-4" />
+        {profile.email}
+      </Button>
+      <Button href={resume.href} download={resume.filename}>
+        <Icon name="download" class="size-4" />
+        Download CV
+      </Button>
+    </div>
+  </div>
+</section>

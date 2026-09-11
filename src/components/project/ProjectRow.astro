@@ -1,0 +1,36 @@
+---
+import Icon from '@/components/icons/Icon.astro'
+import ChipList from '@/components/ui/ChipList.astro'
+import { projectPath, type Project } from '@/lib/content'
+
+interface Props {
+  project: Project
+}
+
+const { project } = Astro.props
+const { title, tagline, context, year, stack, confidential } = project.data
+---
+
+<a
+  href={projectPath(project)}
+  class="group grid grid-cols-[1fr_auto] items-start gap-x-4 gap-y-2 border-t border-line py-5 transition-colors hover:border-line-strong md:grid-cols-[14rem_1fr_auto] md:items-center"
+>
+  <div class="flex items-center gap-2 md:order-1">
+    <h3 class="font-medium tracking-tight">{title}</h3>
+    {confidential && <Icon name="lock" class="size-3 text-subtle" />}
+  </div>
+
+  <p class="col-span-2 text-sm leading-relaxed text-muted md:order-2 md:col-span-1">
+    {tagline}
+    <span class="mt-1 block text-subtle md:hidden">{context}</span>
+  </p>
+
+  <div class="flex items-center gap-4 justify-self-end md:order-3">
+    <ChipList items={stack} limit={2} class="hidden lg:flex" />
+    <span class="label">{year}</span>
+    <Icon
+      name="arrowUpRight"
+      class="size-4 text-subtle transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
+    />
+  </div>
+</a>

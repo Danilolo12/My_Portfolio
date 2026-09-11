@@ -1,0 +1,117 @@
+---
+import type { GLYPHS } from '@/content.config'
+
+/**
+ * Abstract line drawings standing in for screenshots. Most of this work is
+ * either confidential or a backend, so a diagram is more honest than a mockup.
+ */
+const SHAPES: Record<(typeof GLYPHS)[number], string> = {
+  radar: `
+    <circle cx="100" cy="60" r="13"/><circle cx="100" cy="60" r="27"/>
+    <circle cx="100" cy="60" r="41"/><circle cx="100" cy="60" r="55"/>
+    <path d="M100 5v110M45 60h110" opacity=".4"/>
+    <g class="sweep"><path d="M100 60 L155 60" class="hot" stroke-width="2"/></g>
+    <circle cx="127" cy="41" r="3" class="hot" fill="currentColor"/>
+    <circle cx="72" cy="79" r="2.5" opacity=".7" fill="currentColor"/>`,
+  satellite: `
+    <ellipse cx="100" cy="60" rx="72" ry="24"/>
+    <ellipse cx="100" cy="60" rx="72" ry="24" transform="rotate(-32 100 60)" opacity=".45"/>
+    <circle cx="100" cy="60" r="17"/>
+    <path d="M89 54h22M86 62h28M92 70h16" opacity=".5"/>
+    <g class="hot"><rect x="158" y="52" width="12" height="9" rx="1.5"/>
+    <path d="M158 56.5h-11M170 56.5h11"/></g>`,
+  pipeline: `
+    <rect x="14" y="44" width="40" height="32" rx="5"/>
+    <rect x="80" y="44" width="40" height="32" rx="5"/>
+    <rect x="146" y="44" width="40" height="32" rx="5"/>
+    <path d="M54 60h26M120 60h26"/>
+    <path d="M74 56l6 4-6 4M140 56l6 4-6 4" fill="none"/>
+    <circle cx="34" cy="60" r="4" class="hot" fill="currentColor"/>
+    <path d="M92 60h16M92 54h10M92 66h13" opacity=".55"/>
+    <circle cx="166" cy="60" r="4" opacity=".6" fill="currentColor"/>`,
+  agent: `
+    <circle cx="100" cy="30" r="15" class="hot"/>
+    <path d="M100 45v16M100 61H42v18M100 61h58v18M100 61v18"/>
+    <rect x="24" y="79" width="36" height="26" rx="5"/>
+    <rect x="82" y="79" width="36" height="26" rx="5"/>
+    <rect x="140" y="79" width="36" height="26" rx="5"/>
+    <path d="M34 92h16M92 92h16M150 92h16" opacity=".55"/>`,
+  ledger: `
+    <path d="M100 16v88"/>
+    <path d="M24 32h56M24 48h44M24 64h60M24 80h38" opacity=".8"/>
+    <path d="M120 32h56M120 48h48M120 64h56M120 80h34" opacity=".8"/>
+    <path d="M24 96h60M120 96h56" class="hot" stroke-width="2"/>
+    <path d="M24 102h60M120 102h56" class="hot" stroke-width="2" opacity=".5"/>`,
+  queue: `
+    <rect x="10" y="44" width="34" height="32" rx="5"/>
+    <rect x="156" y="44" width="34" height="32" rx="5"/>
+    <path d="M44 60h14M142 60h14"/>
+    <rect x="62" y="48" width="18" height="24" rx="3" class="hot"/>
+    <rect x="86" y="48" width="18" height="24" rx="3"/>
+    <rect x="110" y="48" width="18" height="24" rx="3" opacity=".6"/>
+    <rect x="134" y="48" width="6" height="24" rx="2" opacity=".3"/>`,
+  mobile: `
+    <rect x="72" y="10" width="56" height="100" rx="10"/>
+    <path d="M92 18h16" class="hot" stroke-width="2"/>
+    <path d="M82 36h36M82 48h24M82 68h36M82 80h28" opacity=".6"/>
+    <rect x="82" y="90" width="36" height="10" rx="3" class="hot"/>
+    <path d="M52 40h-14M52 60h-22M52 80h-14" opacity=".35"/>
+    <path d="M148 40h14M148 60h22M148 80h14" opacity=".35"/>`,
+  grid: `
+    <rect x="26" y="24" width="34" height="30" rx="4"/>
+    <rect x="70" y="24" width="34" height="30" rx="4" class="hot"/>
+    <rect x="114" y="24" width="34" height="30" rx="4"/>
+    <rect x="26" y="64" width="34" height="30" rx="4"/>
+    <rect x="70" y="64" width="34" height="30" rx="4"/>
+    <rect x="114" y="64" width="34" height="30" rx="4" class="hot" opacity=".6"/>
+    <path d="M158 24v70" opacity=".3"/>`,
+}
+
+interface Props {
+  glyph: (typeof GLYPHS)[number]
+  class?: string
+}
+
+const { glyph, class: className = '' } = Astro.props
+---
+
+<div class:list={['glyph relative overflow-hidden', className]}>
+  <svg
+    viewBox="0 0 200 120"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.25"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    class="size-full text-subtle"
+    set:html={SHAPES[glyph]}
+  />
+</div>
+
+<style>
+  .glyph {
+    background:
+      radial-gradient(
+        120% 100% at 50% 0%,
+        var(--color-accent-wash) 0%,
+        transparent 70%
+      ),
+      var(--color-surface);
+  }
+
+  .glyph :global(.hot) {
+    color: var(--color-accent);
+  }
+
+  .glyph :global(.sweep) {
+    transform-origin: 50% 50%;
+    animation: sweep 4s linear infinite;
+  }
+
+  @keyframes sweep {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

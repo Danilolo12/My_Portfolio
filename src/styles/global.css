@@ -1,0 +1,149 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Semantic names only. Components never reference raw colors, so the whole
+   palette can be re-skinned from this one block.
+--------------------------------------------------------------------------- */
+
+@theme inline {
+  --color-canvas: var(--ui-canvas);
+  --color-surface: var(--ui-surface);
+  --color-raised: var(--ui-raised);
+  --color-line: var(--ui-line);
+  --color-line-strong: var(--ui-line-strong);
+  --color-fg: var(--ui-fg);
+  --color-muted: var(--ui-muted);
+  --color-subtle: var(--ui-subtle);
+  --color-accent: var(--ui-accent);
+  --color-accent-strong: var(--ui-accent-strong);
+  --color-accent-wash: var(--ui-accent-wash);
+  --color-signal: var(--ui-signal);
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --text-display: clamp(2.6rem, 1.2rem + 5vw, 5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.04em;
+  --text-title: clamp(1.75rem, 1.1rem + 2.2vw, 2.75rem);
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.03em;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+:root {
+  color-scheme: dark;
+
+  --ui-canvas: oklch(0.16 0.008 265);
+  --ui-surface: oklch(0.195 0.009 265);
+  --ui-raised: oklch(0.235 0.01 265);
+  --ui-line: oklch(0.29 0.011 265);
+  --ui-line-strong: oklch(0.4 0.014 265);
+  --ui-fg: oklch(0.97 0.003 265);
+  --ui-muted: oklch(0.73 0.008 265);
+  --ui-subtle: oklch(0.56 0.011 265);
+  --ui-accent: oklch(0.82 0.13 191);
+  --ui-accent-strong: oklch(0.9 0.11 191);
+  --ui-accent-wash: oklch(0.82 0.13 191 / 0.12);
+  --ui-signal: oklch(0.8 0.17 148);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --ui-canvas: oklch(0.985 0.002 265);
+  --ui-surface: oklch(1 0 0);
+  --ui-raised: oklch(0.965 0.004 265);
+  --ui-line: oklch(0.9 0.006 265);
+  --ui-line-strong: oklch(0.8 0.009 265);
+  --ui-fg: oklch(0.21 0.012 265);
+  --ui-muted: oklch(0.45 0.011 265);
+  --ui-subtle: oklch(0.58 0.011 265);
+  --ui-accent: oklch(0.55 0.14 218);
+  --ui-accent-strong: oklch(0.46 0.15 218);
+  --ui-accent-wash: oklch(0.55 0.14 218 / 0.1);
+  --ui-signal: oklch(0.55 0.16 148);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-canvas);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+--------------------------------------------------------------------------- */
+
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-subtle);
+}
+
+/* Progressive enhancement: elements fade up as they enter the viewport.
+   Falls back to fully visible when the browser lacks scroll-driven animations. */
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      /* Completes halfway through entry so tall blocks never stay faded. */
+      animation-range: entry 0% entry 50%;
+    }
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

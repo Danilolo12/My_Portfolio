@@ -1,0 +1,119 @@
+---
+import Icon from '@/components/icons/Icon.astro'
+import ThemeToggle from '@/components/layout/ThemeToggle.astro'
+import ShortcutHint from '@/components/ui/ShortcutHint.astro'
+import { nav, profile } from '@/data/site'
+
+interface Props {
+  compact?: boolean
+}
+
+const { compact = false } = Astro.props
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-40 transition-[background-color,border-color,backdrop-filter] duration-300"
+>
+  <div
+    class="mx-auto flex h-16 w-full max-w-5xl items-center justify-between gap-4 px-5 sm:px-8"
+  >
+    {
+      compact ? (
+        <a
+          href="/#work"
+          class="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
+        >
+          <Icon
+            name="arrowLeft"
+            class="size-4 transition-transform group-hover:-translate-x-0.5"
+          />
+          All work
+        </a>
+      ) : (
+        <a href="/" class="flex items-center gap-2.5" aria-label={profile.name}>
+          <span class="font-mono text-sm font-medium tracking-tight">DR</span>
+          <span class="hidden h-4 w-px bg-line sm:block" />
+          <span class="hidden text-sm text-muted sm:block">{profile.role}</span>
+        </a>
+      )
+    }
+
+    <div class="flex items-center gap-1">
+      {
+        !compact && (
+          <nav aria-label="Sections" class="mr-2 hidden items-center gap-1 md:flex">
+            {nav.map((item) => (
+              <a
+                href={item.href}
+                data-nav={item.id}
+                class="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:text-fg aria-[current=true]:text-fg"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        )
+      }
+
+      <button
+        type="button"
+        data-command-open
+        class="inline-flex items-center gap-2 rounded-full border border-line px-2.5 py-1.5 text-muted transition-colors hover:border-line-strong hover:text-fg"
+        aria-label="Open command menu"
+      >
+        <Icon name="search" class="size-3.5" />
+        <ShortcutHint class="hidden sm:block" />
+      </button>
+
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<style>
+  #site-header[data-scrolled='true'] {
+    background-color: color-mix(in oklab, var(--color-canvas) 72%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-line);
+  }
+</style>
+
+<script>
+  // `astro:page-load` also fires on first load, so this is the only hook needed.
+  document.addEventListener('astro:page-load', () => {
+    const header = document.getElementById('site-header')
+    if (!header) return
+
+    const onScroll = () => {
+      header.dataset['scrolled'] = String(window.scrollY > 12)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    // Scroll spy: the last section whose top has passed the header wins.
+    const links = new Map(
+      [...document.querySelectorAll<HTMLAnchorElement>('[data-nav]')].map((a) => [
+        a.dataset['nav'],
+        a,
+      ]),
+    )
+    const sections = [...links.keys()]
+      .map((id) => (id ? document.getElementById(id) : null))
+      .filter((el): el is HTMLElement => el !== null)
+
+    if (sections.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue
+          for (const link of links.values()) link.removeAttribute('aria-current')
+          links.get(entry.target.id)?.setAttribute('aria-current', 'true')
+        }
+      },
+      { rootMargin: '-20% 0px -70% 0px' },
+    )
+    sections.forEach((section) => observer.observe(section))
+  })
+</script>

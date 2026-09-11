@@ -1,54 +1,19 @@
 ---
-import Layout from "@/layouts/Layout.astro";
+import Base from '@/layouts/Base.astro'
 
-import AboutMe from "@/components/AboutMe.astro";
-import Briefcase from "@/components/icons/Briefcase.astro";
-import CodeIcon from "@/components/icons/Code.astro";
-import Experience from "@/components/Experience.astro";
-import ProfileCheck from "@/components/icons/ProfileCheck.astro";
-import Projects from "@/components/Projects.astro";
-import SectionContainer from "@/components/SectionContainer.astro";
-import Hero from "@/components/Hero.astro";
+import About from '@/components/sections/About.astro'
+import Contact from '@/components/sections/Contact.astro'
+import Experience from '@/components/sections/Experience.astro'
+import Hero from '@/components/sections/Hero.astro'
+import Stack from '@/components/sections/Stack.astro'
+import Work from '@/components/sections/Work.astro'
 ---
 
-<Layout
-  title="Daniel Ramos Portfolio - Full-Stack Developer with 3+ years experience"
-  description="Hire Daniel Ramos to create your web or mobile application. Full-Stack Developer specialized in building unique applications."
->
-  <main class="px-4">
-    <SectionContainer class="py-16 md:py-36">
-      <Hero />
-    </SectionContainer>
-  </main>
-  <div class="space-y-25">
-    <SectionContainer id="experiencia">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-      >
-        <Briefcase class="size-8" />
-        Work Experience
-      </h2>
-      <Experience />
-    </SectionContainer>
-
-    <SectionContainer id="proyectos">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-      >
-        <CodeIcon class="size-7" />
-        Projects
-      </h2>
-      <Projects />
-    </SectionContainer>
-
-    <SectionContainer id="sobre-mi">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white"
-      >
-        <ProfileCheck class="size-8" />
-        About Me
-      </h2>
-      <AboutMe />
-    </SectionContainer>
-  </div>
-</Layout>
+<Base>
+  <Hero />
+  <Work />
+  <Experience />
+  <Stack />
+  <About />
+  <Contact />
+</Base>

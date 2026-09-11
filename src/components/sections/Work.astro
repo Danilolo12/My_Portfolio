@@ -1,0 +1,33 @@
+---
+import ProjectCard from '@/components/project/ProjectCard.astro'
+import ProjectRow from '@/components/project/ProjectRow.astro'
+import Section from '@/components/ui/Section.astro'
+import { getFeaturedProjects, getOtherProjects } from '@/lib/content'
+
+const featured = await getFeaturedProjects()
+const others = await getOtherProjects()
+---
+
+<Section
+  id="work"
+  index="01 / Selected work"
+  title="Things I built and would defend in review"
+  lede="Shipped products, client systems and deep engineering studies. Each one links to a write-up of the decisions behind it."
+>
+  <div class="grid gap-5 sm:grid-cols-2">
+    {featured.map((project) => <ProjectCard project={project} />)}
+  </div>
+
+  {
+    others.length > 0 && (
+      <div class="reveal mt-16">
+        <h3 class="label mb-2">Also built</h3>
+        <div class="border-b border-line">
+          {others.map((project) => (
+            <ProjectRow project={project} />
+          ))}
+        </div>
+      </div>
+    )
+  }
+</Section>
