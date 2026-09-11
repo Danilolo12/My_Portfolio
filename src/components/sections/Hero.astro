@@ -32,7 +32,7 @@ const facts = [
     <span class="text-fg">{profile.role}</span> — {profile.focus}.
   </p>
 
-  <div class="mt-12 grid gap-10 md:grid-cols-[1fr_18rem] md:gap-16">
+  <div class="mt-12 grid gap-10 md:grid-cols-[1fr_14rem] md:gap-16">
     <div class="max-w-xl">
       <p class="text-base leading-relaxed text-muted">{profile.headline}</p>
 
@@ -79,11 +79,11 @@ const facts = [
     <Image
       src={portrait}
       alt={`${profile.fullName}, ${profile.role}`}
-      widths={[288, 576]}
-      sizes="(min-width: 768px) 18rem, 18rem"
+      widths={[224, 448]}
+      sizes="14rem"
       loading="eager"
       fetchpriority="high"
-      class="mx-auto aspect-[4/5] w-full max-w-xs self-start rounded-xl border border-line object-cover md:mx-0 md:max-w-none"
+      class="mx-auto aspect-[4/5] w-full max-w-56 self-start rounded-xl border border-line object-cover md:mx-0 md:max-w-none"
     />
   </div>
 </section>
