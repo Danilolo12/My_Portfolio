@@ -13,19 +13,29 @@ export async function getTimeline(): Promise<Job[]> {
   })
 }
 
-export async function getProjects(): Promise<Project[]> {
+async function sorted(): Promise<Project[]> {
   const projects = await getCollection('projects')
   return projects.sort(
     (a, b) => a.data.order - b.data.order || b.data.year - a.data.year,
   )
 }
 
+/** Everything that gets a case-study page. Restricted work is named only. */
+export async function getProjects(): Promise<Project[]> {
+  return (await sorted()).filter((project) => !project.data.restricted)
+}
+
 export async function getFeaturedProjects(): Promise<Project[]> {
-  return (await getProjects()).filter((p) => p.data.featured)
+  return (await getProjects()).filter((project) => project.data.featured)
 }
 
 export async function getOtherProjects(): Promise<Project[]> {
-  return (await getProjects()).filter((p) => !p.data.featured)
+  return (await getProjects()).filter((project) => !project.data.featured)
+}
+
+/** Employer-owned systems we can name but not describe. */
+export async function getRestrictedProjects(): Promise<Project[]> {
+  return (await sorted()).filter((project) => project.data.restricted)
 }
 
 export function projectPath(project: Project): string {

@@ -5,7 +5,7 @@ import type { GetStaticPaths } from 'astro'
 import Base from '@/layouts/Base.astro'
 import Icon from '@/components/icons/Icon.astro'
 import type { IconName } from '@/components/icons/Icon.astro'
-import ProjectGlyph from '@/components/project/ProjectGlyph.astro'
+import ProjectVisual from '@/components/project/ProjectVisual.astro'
 import Button from '@/components/ui/Button.astro'
 import ChipList from '@/components/ui/ChipList.astro'
 import MetricList from '@/components/ui/MetricList.astro'
@@ -28,7 +28,7 @@ export const getStaticPaths = (async () => {
 const { project, previous, next } = Astro.props
 const { Content } = await render(project)
 
-const { title, tagline, kind, context, year, role, glyph, stack, metrics, links, confidential } =
+const { title, tagline, kind, context, year, role, stack, metrics, links, confidential } =
   project.data
 
 const LINK_ICONS: Record<string, IconName> = {
@@ -56,9 +56,13 @@ const details = [
       </p>
     </header>
 
-    <ProjectGlyph
-      glyph={glyph}
-      class="mt-10 aspect-[200/70] rounded-xl border border-line"
+    <ProjectVisual
+      project={project}
+      widths={[720, 1080, 1440]}
+      sizes="(min-width: 1024px) 60rem, 100vw"
+      fit="contain"
+      loading="eager"
+      class="mt-10 aspect-[2/1] rounded-xl border border-line"
     />
 
     <dl class="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">

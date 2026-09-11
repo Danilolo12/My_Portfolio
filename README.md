@@ -45,9 +45,24 @@ src/
 Light and dark are two values of the same tokens, so components never branch on
 theme and the palette can be changed in one place.
 
-**No screenshots.** Most of this work is confidential or headless. Each project
-gets an abstract SVG diagram (`ProjectGlyph.astro`) keyed to its architecture —
-more honest than a mockup.
+**Screenshots are optional.** A project shows an abstract SVG diagram
+(`ProjectGlyph.astro`) keyed to its architecture until a real screenshot exists.
+Drop the image next to the Markdown file and point at it:
+
+```yaml
+cover: ./finymo.png
+coverAlt: Finymo loan dashboard on Android
+```
+
+`ProjectVisual.astro` picks the screenshot when it is there and the glyph when
+it is not, so the two can coexist while the set fills in. Cards crop to a
+uniform tile; case-study pages letterbox instead, so a portrait phone capture
+and a wide dashboard both stay readable.
+
+**Confidential work is named, not described.** `restricted: true` keeps a
+project out of the case-study routes entirely — no page is generated and nothing
+links to one. Those entries surface only in the "Under NDA" block, with a
+tagline and a stack and nothing else.
 
 **The OG image is generated.** `src/pages/og.png.ts` renders an SVG through
 sharp at build time, reading from `src/data/site.ts`, so the social card can

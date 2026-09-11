@@ -1,18 +1,24 @@
 ---
 import ProjectCard from '@/components/project/ProjectCard.astro'
 import ProjectRow from '@/components/project/ProjectRow.astro'
+import RestrictedWork from '@/components/project/RestrictedWork.astro'
 import Section from '@/components/ui/Section.astro'
-import { getFeaturedProjects, getOtherProjects } from '@/lib/content'
+import {
+  getFeaturedProjects,
+  getOtherProjects,
+  getRestrictedProjects,
+} from '@/lib/content'
 
 const featured = await getFeaturedProjects()
 const others = await getOtherProjects()
+const restricted = await getRestrictedProjects()
 ---
 
 <Section
   id="work"
   index="01 / Selected work"
   title="Things I built and would defend in review"
-  lede="Shipped products, client systems and deep engineering studies. Each one links to a write-up of the decisions behind it."
+  lede="Shipped products and deep engineering studies. Each one links to a write-up of the decisions behind it."
 >
   <div class="grid gap-5 sm:grid-cols-2">
     {featured.map((project) => <ProjectCard project={project} />)}
@@ -30,4 +36,6 @@ const others = await getOtherProjects()
       </div>
     )
   }
+
+  <RestrictedWork projects={restricted} />
 </Section>

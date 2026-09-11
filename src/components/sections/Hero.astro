@@ -1,7 +1,10 @@
 ---
+import { Image } from 'astro:assets'
+
 import Icon from '@/components/icons/Icon.astro'
 import Button from '@/components/ui/Button.astro'
 import StatusDot from '@/components/ui/StatusDot.astro'
+import portrait from '@/assets/hero-portrait.webp'
 import { profile, resume, socials } from '@/data/site'
 import { yearsSince } from '@/lib/format'
 
@@ -29,7 +32,7 @@ const facts = [
     <span class="text-fg">{profile.role}</span> — {profile.focus}.
   </p>
 
-  <div class="mt-12 grid gap-10 md:grid-cols-[1fr_auto] md:gap-16">
+  <div class="mt-12 grid gap-10 md:grid-cols-[1fr_18rem] md:gap-16">
     <div class="max-w-xl">
       <p class="text-base leading-relaxed text-muted">{profile.headline}</p>
 
@@ -53,25 +56,35 @@ const facts = [
             ))
         }
       </div>
+
+      <dl
+        class="mt-10 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-line pt-6"
+      >
+        {
+          facts.map((fact) => (
+            <div>
+              <dt class="label">{fact.key}</dt>
+              <dd
+                class="mt-1 text-sm text-fg"
+                data-local-time={fact.live ? '' : undefined}
+              >
+                {fact.value}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
 
-    <dl
-      class="grid w-full grid-cols-2 gap-x-8 gap-y-5 self-start rounded-xl border border-line bg-surface/40 p-5 md:w-64 md:grid-cols-1 md:gap-y-4"
-    >
-      {
-        facts.map((fact) => (
-          <div>
-            <dt class="label">{fact.key}</dt>
-            <dd
-              class="mt-1 text-sm text-fg"
-              data-local-time={fact.live ? '' : undefined}
-            >
-              {fact.value}
-            </dd>
-          </div>
-        ))
-      }
-    </dl>
+    <Image
+      src={portrait}
+      alt={`${profile.fullName}, ${profile.role}`}
+      widths={[288, 576]}
+      sizes="(min-width: 768px) 18rem, 18rem"
+      loading="eager"
+      fetchpriority="high"
+      class="mx-auto aspect-[4/5] w-full max-w-xs self-start rounded-xl border border-line object-cover md:mx-0 md:max-w-none"
+    />
   </div>
 </section>
 

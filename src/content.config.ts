@@ -44,24 +44,36 @@ const experience = defineCollection({
 
 const projects = defineCollection({
   loader: glob({ base: './src/content/projects', pattern: '**/*.md' }),
-  schema: z.object({
-    title: z.string(),
-    tagline: z.string(),
-    /** Drives the badge on the card, so visitors know what they are looking at. */
-    kind: z.enum(['Product', 'Client work', 'Engineering study']),
-    context: z.string(),
-    year: z.number().int(),
-    role: z.string(),
-    glyph: z.enum(GLYPHS),
-    featured: z.boolean().default(false),
-    /** Confidential work shows no source links and says so explicitly. */
-    confidential: z.boolean().default(false),
-    stack: z.array(z.string()).min(1),
-    metrics: z.array(metric).max(4).default([]),
-    links: z.array(link).default([]),
-    /** Lower sorts first within its group. */
-    order: z.number().int().default(99),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      tagline: z.string(),
+      /** Drives the badge on the card, so visitors know what they are looking at. */
+      kind: z.enum(['Product', 'Client work', 'Engineering study']),
+      context: z.string(),
+      year: z.number().int(),
+      role: z.string(),
+      glyph: z.enum(GLYPHS),
+      /**
+       * Screenshot, dropped next to this file and referenced as `./name.png`.
+       * Falls back to the abstract glyph when absent.
+       */
+      cover: image().optional(),
+      coverAlt: z.string().optional(),
+      featured: z.boolean().default(false),
+      /** Confidential work shows no source links and says so explicitly. */
+      confidential: z.boolean().default(false),
+      /**
+       * Employer-owned work we can name but not describe. Listed on the home
+       * page only — no case-study page is generated and nothing links to one.
+       */
+      restricted: z.boolean().default(false),
+      stack: z.array(z.string()).min(1),
+      metrics: z.array(metric).max(4).default([]),
+      links: z.array(link).default([]),
+      /** Lower sorts first within its group. */
+      order: z.number().int().default(99),
+    }),
 })
 
 export const collections = { experience, projects }

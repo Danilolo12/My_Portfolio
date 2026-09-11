@@ -12,10 +12,10 @@ export const profile = {
   available: true,
   availability: 'Open to senior roles — remote',
   headline:
-    'I build systems where the hard part is invisible: RAG pipelines that answer in under three seconds, drone-detection software reading radio spectrum in real time, and a ledger that never loses a cent.',
+    'I build systems where the hard part is invisible: RAG pipelines that answer in under three seconds, real-time detection software for defense and monitoring, and a ledger that never loses a cent.',
   bio: [
     'I am a full-stack engineer from Medellín who spends most of his time on the side of a product that users never see — the services, data models and pipelines that decide whether the thing feels fast or feels broken.',
-    'The last two years have been unusually varied. At Space-Eyes I shipped defense and monitoring systems: an RF counter-drone desktop app, a maritime surveillance platform wired into satellite tasking, and a wildfire early-warning system with a field mobile app. At Remoti I moved deeper into AI infrastructure, architecting enterprise RAG pipelines and stateful LangGraph agents that call real databases and APIs.',
+    'The last two years have been unusually varied. At Space-Eyes I shipped defense and monitoring systems across web, mobile and desktop — the products are the company\'s and the details stay with them, but the backend spine was mine. At Remoti I moved deeper into AI infrastructure, architecting enterprise RAG pipelines and stateful LangGraph agents that call real databases and APIs.',
     'On my own time I build Finymo, a mobile fintech app for Colombia\'s informal lending economy, and Jarvis, a Discord-driven engine that scripts, narrates and renders short-form video end to end.',
     'What I care about: correct money math, honest failure modes, boring deployments, and code that the next person can read.',
   ],

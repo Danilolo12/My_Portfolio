@@ -15,6 +15,6 @@ const hidden = items.length - shown.length
 ---
 
 <ul class:list={['flex flex-wrap gap-1.5', className]}>
-  {shown.map((item) => <li><Chip>{item}</Chip></li>)}
+  {shown.map((item) => <li><Chip label={item} /></li>)}
   {hidden > 0 && <li><Chip>+{hidden}</Chip></li>}
 </ul>

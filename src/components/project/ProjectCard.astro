@@ -1,7 +1,7 @@
 ---
 import Icon from '@/components/icons/Icon.astro'
 import ChipList from '@/components/ui/ChipList.astro'
-import ProjectGlyph from '@/components/project/ProjectGlyph.astro'
+import ProjectVisual from '@/components/project/ProjectVisual.astro'
 import { projectPath, type Project } from '@/lib/content'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { project } = Astro.props
-const { title, tagline, kind, year, glyph, stack, metrics, confidential } =
+const { title, tagline, kind, year, stack, metrics, confidential } =
   project.data
 ---
 
@@ -17,9 +17,11 @@ const { title, tagline, kind, year, glyph, stack, metrics, confidential } =
   href={projectPath(project)}
   class="group reveal flex flex-col overflow-hidden rounded-xl border border-line bg-surface/40 transition-colors duration-300 hover:border-line-strong"
 >
-  <ProjectGlyph
-    glyph={glyph}
-    class="aspect-[200/120] border-b border-line transition-opacity duration-300 group-hover:opacity-90"
+  <ProjectVisual
+    project={project}
+    widths={[400, 800]}
+    sizes="(min-width: 640px) 24rem, 100vw"
+    class="aspect-[200/120] w-full border-b border-line transition-opacity duration-300 group-hover:opacity-90"
   />
 
   <div class="flex flex-1 flex-col p-5">

@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets'
+
+import ProjectGlyph from '@/components/project/ProjectGlyph.astro'
+import type { Project } from '@/lib/content'
+
+interface Props {
+  project: Project
+  widths: number[]
+  sizes: string
+  /**
+   * `cover` crops to a uniform tile (grids); `contain` letterboxes instead, so
+   * portrait phone screenshots and wide dashboards both stay readable.
+   */
+  fit?: 'cover' | 'contain'
+  loading?: 'lazy' | 'eager'
+  class?: string
+}
+
+const {
+  project,
+  widths,
+  sizes,
+  fit = 'cover',
+  loading = 'lazy',
+  class: className = '',
+} = Astro.props
+
+const { cover, coverAlt, title, glyph } = project.data
+
+const FIT = {
+  cover: 'object-cover object-top',
+  contain: 'bg-surface/40 object-contain',
+} as const
+---
+
+{
+  cover ? (
+    <Image
+      src={cover}
+      alt={coverAlt ?? `${title} screenshot`}
+      widths={widths}
+      sizes={sizes}
+      loading={loading}
+      decoding="async"
+      class:list={['w-full', FIT[fit], className]}
+    />
+  ) : (
+    <ProjectGlyph glyph={glyph} class={className} />
+  )
+}

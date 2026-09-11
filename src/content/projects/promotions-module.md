@@ -6,7 +6,7 @@ context: Technical assessment
 year: 2026
 role: Solo build, full stack
 glyph: grid
-featured: false
+featured: true
 confidential: false
 stack:
   - TypeScript
