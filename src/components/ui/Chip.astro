@@ -14,7 +14,7 @@ const { label, variant = 'default', class: className = '' } = Astro.props
 const brand = variant === 'default' && label ? techColor(label) : undefined
 
 const VARIANTS = {
-  default: 'border-line text-muted hover:border-line-strong',
+  default: 'border-line text-muted',
   accent: 'border-accent/30 bg-accent-wash text-accent',
 } as const
 ---
@@ -24,7 +24,8 @@ const VARIANTS = {
     'inline-flex items-center rounded-md border px-2 py-0.5',
     'font-mono text-[0.6875rem] tracking-tight whitespace-nowrap',
     'transition-colors duration-200',
-    brand ? 'tech' : VARIANTS[variant],
+    VARIANTS[variant],
+    brand && 'tech',
     className,
   ]}
   style={brand ? `--brand:${brand};--brand-fg:${readableOn(brand)}` : undefined}
@@ -33,21 +34,11 @@ const VARIANTS = {
 </span>
 
 <style>
-  .tech {
-    border-color: color-mix(in oklab, var(--brand) 42%, transparent);
-    color: color-mix(in oklab, var(--brand) 78%, var(--color-fg));
-    background-color: color-mix(in oklab, var(--brand) 8%, transparent);
-  }
-
+  /* Neutral at rest, brand colour on hover. `--brand-fg` is picked from the
+     colour's luminance at build time, so the label stays readable either way. */
   .tech:hover {
     border-color: var(--brand);
     background-color: var(--brand);
     color: var(--brand-fg);
-  }
-
-  /* Brand colours are tuned for the dark canvas; darken them on white. The
-     `:not(:hover)` keeps this from outranking the filled state above. */
-  :global([data-theme='light']) .tech:not(:hover) {
-    color: color-mix(in oklab, var(--brand) 62%, var(--color-fg));
   }
 </style>
