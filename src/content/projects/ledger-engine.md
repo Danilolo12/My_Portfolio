@@ -6,6 +6,8 @@ context: Senior technical assessment
 year: 2026
 role: Solo build, full stack
 glyph: ledger
+cover: ./ledger-engine.png
+coverAlt: General ledger view with a running balance per account and a reversed voucher
 featured: true
 confidential: false
 stack:

@@ -6,6 +6,8 @@ context: Senior technical assessment
 year: 2026
 role: Solo build, full stack
 glyph: queue
+cover: ./orderflow.png
+coverAlt: OrderFlow operations panel with orders resolved asynchronously, one rejected for insufficient stock
 featured: true
 confidential: false
 stack:

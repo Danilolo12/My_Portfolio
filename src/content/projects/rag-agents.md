@@ -6,6 +6,8 @@ context: Remoti · AI infrastructure
 year: 2026
 role: Senior engineer & architect
 glyph: agent
+cover: ./rag-agents.png
+coverAlt: Schematic of the retrieval pipeline — sources, embeddings, vector store, and an agent loop back into retrieval
 featured: true
 confidential: true
 stack:

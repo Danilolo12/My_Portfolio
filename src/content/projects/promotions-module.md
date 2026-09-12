@@ -6,6 +6,8 @@ context: Technical assessment
 year: 2026
 role: Solo build, full stack
 glyph: grid
+cover: ./promotions-module.png
+coverAlt: Promotions dashboard with discounts in the scheduled, active and finished states
 featured: true
 confidential: false
 stack:
