@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 
 // Change this to your production domain before deploying.
-const SITE = 'https://danielramos.dev'
+const SITE = 'https://portfolio-daniel-ramos.vercel.app'
 
 export default defineConfig({
   site: SITE,
