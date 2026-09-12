@@ -1,6 +1,6 @@
 ---
 title: Finymo
-tagline: Fintech for Colombia's informal lending economy — live on Android.
+tagline: Fintech for Colombia's informal lending economy — live on Android/iOS.
 kind: Product
 context: Personal product, built with a co-founder
 year: 2026
@@ -26,7 +26,7 @@ metrics:
     label: Financial scenarios verified
   - value: '4'
     label: Independent product modules
-  - value: 'Android'
+  - value: 'Android/iOS'
     label: Shipped and public
 links:
   - label: Google Play
