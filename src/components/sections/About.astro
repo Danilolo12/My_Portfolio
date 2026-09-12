@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets'
+
+import Section from '@/components/ui/Section.astro'
+import portrait from '@/assets/portrait.webp'
+import { profile } from '@/data/site'
+
+const facts = [
+  { key: 'Education', value: 'Systems Analysis & Development, 2021' },
+  { key: 'Languages', value: 'Spanish (native) · English (professional)' },
+  { key: 'Working hours', value: 'GMT-5, overlaps US and LATAM' },
+]
+---
+
+<Section
+  id="about"
+  index="04 / About"
+  title="The short version"
+  lede="Medellín-based, remote by default, happiest somewhere near the data layer."
+>
+  <div class="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-14">
+    <div class="reveal">
+      <Image
+        src={portrait}
+        alt={`${profile.fullName}, ${profile.role}`}
+        widths={[288, 576]}
+        sizes="(min-width: 768px) 18rem, 100vw"
+        loading="lazy"
+        class="w-full rounded-xl border border-line object-cover"
+      />
+      <dl class="mt-6 space-y-4">
+        {
+          facts.map((fact) => (
+            <div>
+              <dt class="label">{fact.key}</dt>
+              <dd class="mt-1 text-sm text-muted">{fact.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div class="reveal max-w-2xl space-y-5">
+      {
+        profile.bio.map((paragraph) => (
+          <p class="leading-relaxed text-muted">{paragraph}</p>
+        ))
+      }
+    </div>
+  </div>
+</Section>

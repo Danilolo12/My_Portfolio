@@ -1,0 +1,40 @@
+---
+import Icon from '@/components/icons/Icon.astro'
+import type { IconName } from '@/components/icons/Icon.astro'
+import { profile, socials } from '@/data/site'
+
+const year = new Date().getFullYear()
+---
+
+<footer class="mt-24 border-t border-line">
+  <div
+    class="mx-auto flex w-full max-w-5xl flex-col gap-6 px-5 py-10 sm:px-8 md:flex-row md:items-center md:justify-between"
+  >
+    <div class="space-y-1">
+      <p class="text-sm text-muted">
+        © {year} {profile.fullName}
+      </p>
+      <p class="label">
+        Built with Astro · Type-safe content · No tracking
+      </p>
+    </div>
+
+    <ul class="flex items-center gap-1">
+      {
+        socials.map((social) => (
+          <li>
+            <a
+              href={social.href}
+              target={social.icon === 'mail' ? undefined : '_blank'}
+              rel="noopener noreferrer"
+              aria-label={social.label}
+              class="inline-flex size-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-raised hover:text-fg"
+            >
+              <Icon name={social.icon as IconName} class="size-4" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</footer>

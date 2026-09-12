@@ -1,0 +1,229 @@
+---
+import Icon from '@/components/icons/Icon.astro'
+import { getProjects } from '@/lib/content'
+import { nav, profile, resume, socials } from '@/data/site'
+
+const projects = await getProjects()
+
+const groups = [
+  {
+    label: 'Go to',
+    items: [
+      { icon: 'terminal' as const, label: 'Home', href: '/' },
+      ...nav.map((item) => ({
+        icon: 'arrowRight' as const,
+        label: item.label,
+        href: item.href,
+      })),
+    ],
+  },
+  {
+    label: 'Work',
+    items: projects.map((project) => ({
+      icon: 'arrowUpRight' as const,
+      label: project.data.title,
+      href: `/work/${project.id}`,
+    })),
+  },
+  {
+    label: 'Actions',
+    items: [
+      {
+        icon: 'copy' as const,
+        label: 'Copy email address',
+        action: 'copy',
+        value: profile.email,
+      },
+      {
+        icon: 'download' as const,
+        label: 'Download CV',
+        href: resume.href,
+        download: resume.filename,
+      },
+      { icon: 'sun' as const, label: 'Toggle theme', action: 'theme' },
+      ...socials
+        .filter((social) => social.icon !== 'mail')
+        .map((social) => ({
+          icon: social.icon as 'github' | 'linkedin',
+          label: `Open ${social.label}`,
+          href: social.href,
+          external: true,
+        })),
+    ],
+  },
+]
+---
+
+<dialog
+  id="command-palette"
+  class="m-auto w-[min(34rem,calc(100vw-2rem))] rounded-xl border border-line bg-surface p-0 text-fg shadow-2xl backdrop:bg-canvas/70 backdrop:backdrop-blur-sm"
+  aria-label="Command menu"
+>
+  <div class="flex items-center gap-3 border-b border-line px-4">
+    <Icon name="search" class="size-4 shrink-0 text-subtle" />
+    <input
+      type="text"
+      data-command-input
+      placeholder="Search sections, work, actions…"
+      autocomplete="off"
+      spellcheck="false"
+      class="w-full bg-transparent py-3.5 text-sm outline-none placeholder:text-subtle"
+    />
+    <kbd class="label shrink-0">esc</kbd>
+  </div>
+
+  <div data-command-list class="max-h-[min(24rem,60vh)] overflow-y-auto p-2">
+    {
+      groups.map((group) => (
+        <div data-group>
+          <p class="label px-2 pb-1 pt-2">{group.label}</p>
+          <ul>
+            {group.items.map((item) => {
+              const isLink = 'href' in item && item.href
+              const Tag = isLink ? 'a' : 'button'
+              return (
+                <li>
+                  <Tag
+                    data-command-item
+                    data-label={item.label}
+                    {...(isLink
+                      ? {
+                          href: item.href,
+                          ...('download' in item && item.download
+                            ? { download: item.download }
+                            : {}),
+                          ...('external' in item && item.external
+                            ? { target: '_blank', rel: 'noopener noreferrer' }
+                            : {}),
+                        }
+                      : { type: 'button' })}
+                    {...('action' in item && item.action
+                      ? { 'data-action': item.action }
+                      : {})}
+                    {...('value' in item && item.value
+                      ? { 'data-value': item.value }
+                      : {})}
+                    class="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left text-sm text-muted transition-colors data-selected:bg-accent-wash data-selected:text-fg"
+                  >
+                    <Icon name={item.icon} class="size-4 shrink-0 text-subtle" />
+                    <span class="truncate">{item.label}</span>
+                  </Tag>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      ))
+    }
+    <p data-command-empty hidden class="px-2 py-6 text-center text-sm text-subtle">
+      No matches.
+    </p>
+  </div>
+</dialog>
+
+<script>
+  const SELECTOR = '[data-command-item]'
+  let bound = false
+
+  function query<T extends HTMLElement>(selector: string) {
+    return [...document.querySelectorAll<T>(selector)]
+  }
+
+  function setup() {
+    const dialog = document.querySelector<HTMLDialogElement>('#command-palette')
+    const input = document.querySelector<HTMLInputElement>('[data-command-input]')
+    const empty = document.querySelector<HTMLElement>('[data-command-empty]')
+    if (!dialog || !input || !empty) return
+
+    const visible = () =>
+      query<HTMLElement>(SELECTOR).filter((el) => !el.hidden && el.offsetParent !== null)
+
+    const select = (item: HTMLElement | undefined) => {
+      for (const el of query<HTMLElement>(SELECTOR)) delete el.dataset['selected']
+      if (!item) return
+      item.dataset['selected'] = ''
+      item.scrollIntoView({ block: 'nearest' })
+    }
+
+    const filter = () => {
+      const term = input.value.trim().toLowerCase()
+      for (const item of query<HTMLElement>(SELECTOR)) {
+        const label = (item.dataset['label'] ?? '').toLowerCase()
+        item.hidden = term !== '' && !label.includes(term)
+      }
+      // Hide a group heading when everything under it is filtered out.
+      for (const group of query<HTMLElement>('[data-group]')) {
+        const items = [...group.querySelectorAll<HTMLElement>(SELECTOR)]
+        group.hidden = items.every((item) => item.hidden)
+      }
+      const remaining = visible()
+      empty.hidden = remaining.length > 0
+      select(remaining[0])
+    }
+
+    const open = () => {
+      if (dialog.open) return
+      input.value = ''
+      // Must be shown before filtering: visibility checks rely on layout.
+      dialog.showModal()
+      filter()
+      input.focus()
+    }
+
+    dialog.addEventListener('close', () => input.blur())
+    input.addEventListener('input', filter)
+
+    for (const trigger of query('[data-command-open]')) {
+      trigger.addEventListener('click', open)
+    }
+
+    dialog.addEventListener('keydown', (event) => {
+      const items = visible()
+      if (items.length === 0) return
+      const current = items.findIndex((el) => 'selected' in el.dataset)
+
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault()
+        const delta = event.key === 'ArrowDown' ? 1 : -1
+        select(items[(current + delta + items.length) % items.length])
+      } else if (event.key === 'Enter') {
+        event.preventDefault()
+        items[current === -1 ? 0 : current]?.click()
+      }
+    })
+
+    dialog.addEventListener('click', (event) => {
+      const item = (event.target as HTMLElement).closest<HTMLElement>(SELECTOR)
+      if (!item) {
+        // Clicks land on the dialog itself only when they hit the backdrop.
+        if (event.target === dialog) dialog.close()
+        return
+      }
+
+      const action = item.dataset['action']
+      if (action === 'copy') {
+        navigator.clipboard.writeText(item.dataset['value'] ?? '')
+      } else if (action === 'theme') {
+        const root = document.documentElement
+        const next = root.dataset['theme'] === 'dark' ? 'light' : 'dark'
+        root.dataset['theme'] = next
+        localStorage.setItem('theme', next)
+      }
+      dialog.close()
+    })
+
+    if (!bound) {
+      bound = true
+      // Bound to `document`, which survives view transitions — attach once.
+      document.addEventListener('keydown', (event) => {
+        if (event.key.toLowerCase() !== 'k' || !(event.metaKey || event.ctrlKey)) return
+        event.preventDefault()
+        const live = document.querySelector<HTMLDialogElement>('#command-palette')
+        if (live?.open) live.close()
+        else document.querySelector<HTMLElement>('[data-command-open]')?.click()
+      })
+    }
+  }
+
+  document.addEventListener('astro:page-load', setup)
+</script>

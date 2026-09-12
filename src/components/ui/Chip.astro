@@ -1,0 +1,44 @@
+---
+import { techColor } from '@/data/tech'
+import { readableOn } from '@/lib/color'
+
+interface Props {
+  /** When this matches a known technology, the chip takes its brand colour. */
+  label?: string
+  variant?: 'default' | 'accent'
+  class?: string
+}
+
+const { label, variant = 'default', class: className = '' } = Astro.props
+
+const brand = variant === 'default' && label ? techColor(label) : undefined
+
+const VARIANTS = {
+  default: 'border-line text-muted',
+  accent: 'border-accent/30 bg-accent-wash text-accent',
+} as const
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-md border px-2 py-0.5',
+    'font-mono text-[0.6875rem] tracking-tight whitespace-nowrap',
+    'transition-colors duration-200',
+    VARIANTS[variant],
+    brand && 'tech',
+    className,
+  ]}
+  style={brand ? `--brand:${brand};--brand-fg:${readableOn(brand)}` : undefined}
+>
+  {label ?? <slot />}
+</span>
+
+<style>
+  /* Neutral at rest, brand colour on hover. `--brand-fg` is picked from the
+     colour's luminance at build time, so the label stays readable either way. */
+  .tech:hover {
+    border-color: var(--brand);
+    background-color: var(--brand);
+    color: var(--brand-fg);
+  }
+</style>

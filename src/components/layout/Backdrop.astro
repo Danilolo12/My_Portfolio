@@ -1,0 +1,37 @@
+---
+/** Fixed page background: hairline grid, soft accent bloom, vignette. */
+---
+
+<div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+  <div class="grid-field absolute inset-0"></div>
+  <div class="bloom absolute -top-40 left-1/2 size-[42rem] -translate-x-1/2 rounded-full"></div>
+  <div
+    class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,var(--color-canvas)_100%)]"
+  >
+  </div>
+</div>
+
+<style>
+  .grid-field {
+    background-image:
+      linear-gradient(to right, var(--color-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
+    background-size: 72px 72px;
+    opacity: 0.35;
+    mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, black, transparent 75%);
+  }
+
+  .bloom {
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 65%);
+    opacity: 0.1;
+    filter: blur(60px);
+  }
+
+  :global([data-theme='light']) .grid-field {
+    opacity: 0.6;
+  }
+
+  :global([data-theme='light']) .bloom {
+    opacity: 0.14;
+  }
+</style>

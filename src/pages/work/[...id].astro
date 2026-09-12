@@ -1,0 +1,144 @@
+---
+import { render } from 'astro:content'
+import type { GetStaticPaths } from 'astro'
+
+import Base from '@/layouts/Base.astro'
+import Icon from '@/components/icons/Icon.astro'
+import type { IconName } from '@/components/icons/Icon.astro'
+import ProjectVisual from '@/components/project/ProjectVisual.astro'
+import Button from '@/components/ui/Button.astro'
+import ChipList from '@/components/ui/ChipList.astro'
+import MetricList from '@/components/ui/MetricList.astro'
+import Prose from '@/components/ui/Prose.astro'
+import { getProjects, projectPath } from '@/lib/content'
+
+export const getStaticPaths = (async () => {
+  const projects = await getProjects()
+
+  return projects.map((project, index) => ({
+    params: { id: project.id },
+    props: {
+      project,
+      previous: projects[index - 1] ?? null,
+      next: projects[index + 1] ?? null,
+    },
+  }))
+}) satisfies GetStaticPaths
+
+const { project, previous, next } = Astro.props
+const { Content } = await render(project)
+
+const { title, tagline, kind, context, year, role, stack, metrics, links, confidential } =
+  project.data
+
+const LINK_ICONS: Record<string, IconName> = {
+  repo: 'github',
+  live: 'external',
+  store: 'store',
+  docs: 'terminal',
+}
+
+const details = [
+  { key: 'Role', value: role },
+  { key: 'Context', value: context },
+  { key: 'Year', value: String(year) },
+  { key: 'Source', value: confidential ? 'Not public' : links.length ? 'Available' : '—' },
+]
+---
+
+<Base title={`${title} — ${tagline}`} description={tagline} compactHeader>
+  <article class="pb-16 pt-28 md:pt-32">
+    <header>
+      <p class="label">{kind}</p>
+      <h1 class="mt-4 text-title font-semibold text-balance">{title}</h1>
+      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-muted text-balance">
+        {tagline}
+      </p>
+    </header>
+
+    <ProjectVisual
+      project={project}
+      widths={[720, 1080, 1440]}
+      sizes="(min-width: 1024px) 60rem, 100vw"
+      context="detail"
+      loading="eager"
+      class="mt-10 overflow-hidden rounded-xl border border-line"
+    />
+
+    <dl class="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
+      {
+        details.map((detail) => (
+          <div class="border-t border-line pt-3">
+            <dt class="label">{detail.key}</dt>
+            <dd class="mt-1.5 text-sm text-fg">{detail.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <MetricList items={metrics} class="mt-10" />
+
+    <div class="mt-10">
+      <h2 class="label mb-3">Stack</h2>
+      <ChipList items={stack} />
+    </div>
+
+    {
+      links.length > 0 && (
+        <div class="mt-8 flex flex-wrap gap-2.5">
+          {links.map((link) => (
+            <Button href={link.href} external>
+              <Icon name={LINK_ICONS[link.kind] ?? 'external'} class="size-4" />
+              {link.label}
+            </Button>
+          ))}
+        </div>
+      )
+    }
+
+    <hr class="my-12 border-line" />
+
+    <Prose>
+      <Content />
+    </Prose>
+  </article>
+
+  <nav
+    class="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2"
+    aria-label="More work"
+  >
+    {
+      [
+        { project: previous, direction: 'Previous' as const },
+        { project: next, direction: 'Next' as const },
+      ].map(({ project: sibling, direction }) =>
+        sibling ? (
+          <a
+            href={projectPath(sibling)}
+            class="group flex flex-col gap-1 bg-canvas p-5 transition-colors hover:bg-surface"
+            class:list={[direction === 'Next' && 'sm:items-end sm:text-right']}
+          >
+            <span class="label">{direction}</span>
+            <span class="flex items-center gap-2 font-medium tracking-tight">
+              {direction === 'Previous' && (
+                <Icon
+                  name="arrowLeft"
+                  class="size-4 text-subtle transition-transform group-hover:-translate-x-0.5"
+                />
+              )}
+              {sibling.data.title}
+              {direction === 'Next' && (
+                <Icon
+                  name="arrowRight"
+                  class="size-4 text-subtle transition-transform group-hover:translate-x-0.5"
+                />
+              )}
+            </span>
+          </a>
+        ) : (
+          <div class="bg-canvas p-5" />
+        ),
+      )
+    }
+  </nav>
+</Base>

@@ -1,0 +1,63 @@
+---
+import Icon from '@/components/icons/Icon.astro'
+import ChipList from '@/components/ui/ChipList.astro'
+import ProjectVisual from '@/components/project/ProjectVisual.astro'
+import { projectPath, type Project } from '@/lib/content'
+
+interface Props {
+  project: Project
+}
+
+const { project } = Astro.props
+const { title, tagline, kind, year, stack, metrics, confidential } =
+  project.data
+---
+
+<a
+  href={projectPath(project)}
+  class="group reveal flex flex-col overflow-hidden rounded-xl border border-line bg-surface/40 transition-colors duration-300 hover:border-line-strong"
+>
+  <ProjectVisual
+    project={project}
+    widths={[400, 800]}
+    sizes="(min-width: 640px) 24rem, 100vw"
+    context="card"
+    class="w-full border-b border-line transition-opacity duration-300 group-hover:opacity-90"
+  />
+
+  <div class="flex flex-1 flex-col p-5">
+    <div class="flex items-center gap-2">
+      <span class="label">{kind}</span>
+      <span class="text-subtle">·</span>
+      <span class="label">{year}</span>
+      {
+        confidential && (
+          <Icon name="lock" class="size-3 text-subtle" aria-label="Confidential" />
+        )
+      }
+      <Icon
+        name="arrowUpRight"
+        class="ml-auto size-4 text-subtle transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
+      />
+    </div>
+
+    <h3 class="mt-3 text-lg font-semibold tracking-tight">{title}</h3>
+    <p class="mt-1.5 text-sm leading-relaxed text-muted">{tagline}</p>
+
+    <ChipList items={stack} limit={4} class="mt-4 mb-6" />
+
+    {
+      metrics.length > 0 && (
+        <dl class="mt-auto flex flex-wrap gap-x-6 gap-y-2 border-t border-line pt-4">
+          {metrics.slice(0, 2).map((metric) => (
+            <div>
+              <dt class="sr-only">{metric.label}</dt>
+              <dd class="font-mono text-sm text-accent">{metric.value}</dd>
+              <p class="text-[0.6875rem] text-subtle">{metric.label}</p>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+  </div>
+</a>

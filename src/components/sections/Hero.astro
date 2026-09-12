@@ -1,0 +1,112 @@
+---
+import { Image } from 'astro:assets'
+
+import Icon from '@/components/icons/Icon.astro'
+import Button from '@/components/ui/Button.astro'
+import StatusDot from '@/components/ui/StatusDot.astro'
+import portrait from '@/assets/hero-portrait.webp'
+import { profile, resume, socials } from '@/data/site'
+import { yearsSince } from '@/lib/format'
+
+const facts = [
+  { key: 'Based in', value: profile.location },
+  { key: 'Local time', value: '—', live: true },
+  { key: 'Experience', value: `${yearsSince(profile.careerStart)}+ years` },
+  { key: 'Focus', value: profile.focus },
+]
+---
+
+<section class="pb-12 pt-28 md:pb-16 md:pt-36">
+  {
+    profile.available && (
+      <p class="mb-8 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/60 py-1.5 pl-3 pr-4 text-sm text-muted">
+        <StatusDot />
+        {profile.availability}
+      </p>
+    )
+  }
+
+  <h1 class="text-display font-semibold text-balance">{profile.name}</h1>
+
+  <p class="mt-5 max-w-2xl text-xl leading-snug text-muted text-balance md:text-2xl">
+    <span class="text-fg">{profile.role}</span> — {profile.focus}.
+  </p>
+
+  <div class="mt-12 grid gap-10 md:grid-cols-[1fr_14rem] md:gap-16">
+    <div class="max-w-xl">
+      <p class="text-base leading-relaxed text-muted">{profile.headline}</p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-2.5">
+        <Button href={`mailto:${profile.email}`} variant="primary">
+          <Icon name="mail" class="size-4" />
+          Get in touch
+        </Button>
+        <Button href={resume.href} download={resume.filename}>
+          <Icon name="download" class="size-4" />
+          CV
+        </Button>
+        {
+          socials
+            .filter((social) => social.icon !== 'mail')
+            .map((social) => (
+              <Button href={social.href} variant="ghost" external>
+                <Icon name={social.icon} class="size-4" />
+                {social.label}
+              </Button>
+            ))
+        }
+      </div>
+
+      <dl
+        class="mt-10 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-line pt-6"
+      >
+        {
+          facts.map((fact) => (
+            <div>
+              <dt class="label">{fact.key}</dt>
+              <dd
+                class="mt-1 text-sm text-fg"
+                data-local-time={fact.live ? '' : undefined}
+              >
+                {fact.value}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <Image
+      src={portrait}
+      alt={`${profile.fullName}, ${profile.role}`}
+      widths={[224, 448]}
+      sizes="14rem"
+      loading="eager"
+      fetchpriority="high"
+      class="mx-auto aspect-[4/5] w-full max-w-56 self-start rounded-xl border border-line object-cover md:mx-0 md:max-w-none"
+    />
+  </div>
+</section>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const node = document.querySelector<HTMLElement>('[data-local-time]')
+    if (!node) return
+
+    const format = new Intl.DateTimeFormat('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'America/Bogota',
+    })
+
+    const tick = () => {
+      node.textContent = `${format.format(new Date())} GMT-5`
+    }
+
+    tick()
+    const timer = window.setInterval(tick, 30_000)
+    document.addEventListener('astro:before-swap', () => clearInterval(timer), {
+      once: true,
+    })
+  })
+</script>

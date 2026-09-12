@@ -1,0 +1,24 @@
+---
+import ChipList from '@/components/ui/ChipList.astro'
+import Section from '@/components/ui/Section.astro'
+import { stackGroups } from '@/data/stack'
+---
+
+<Section
+  id="stack"
+  index="03 / Stack"
+  title="Tools I reach for"
+  lede="Grouped by what they are for. The list is honest about depth: the first few in each row are where I actually live."
+>
+  <div class="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+    {
+      stackGroups.map((group) => (
+        <div class="reveal bg-canvas p-5">
+          <h3 class="text-sm font-medium tracking-tight">{group.title}</h3>
+          <p class="mt-0.5 text-xs text-subtle">{group.note}</p>
+          <ChipList items={group.items} class="mt-4" />
+        </div>
+      ))
+    }
+  </div>
+</Section>

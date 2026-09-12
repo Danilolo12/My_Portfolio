@@ -1,0 +1,32 @@
+---
+interface Props {
+  class?: string
+}
+
+const { class: className = '' } = Astro.props
+---
+
+<kbd data-shortcut class:list={['shortcut', className]}>⌘K</kbd>
+
+<style>
+  /* The ⌘ glyph is outside the latin subset of our webfont, so borrow the
+     system stack — and swap in "Ctrl" where that key does not exist. */
+  .shortcut {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.02em;
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const platform =
+      (navigator as Navigator & { userAgentData?: { platform?: string } })
+        .userAgentData?.platform ?? navigator.platform
+    const isApple = /mac|iphone|ipad|ipod/i.test(platform)
+    if (isApple) return
+    for (const el of document.querySelectorAll('[data-shortcut]')) {
+      el.textContent = 'Ctrl K'
+    }
+  })
+</script>

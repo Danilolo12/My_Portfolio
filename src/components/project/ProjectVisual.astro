@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets'
+
+import ProjectGlyph from '@/components/project/ProjectGlyph.astro'
+import type { Project } from '@/lib/content'
+
+interface Props {
+  project: Project
+  widths: number[]
+  sizes: string
+  /** Where this is rendered; the component owns the framing from there. */
+  context: 'card' | 'detail'
+  loading?: 'lazy' | 'eager'
+  /** Decoration only — margins, borders, radius. Sizing lives here. */
+  class?: string
+}
+
+const {
+  project,
+  widths,
+  sizes,
+  context,
+  loading = 'lazy',
+  class: className = '',
+} = Astro.props
+
+const { cover, coverAlt, title, glyph } = project.data
+
+/**
+ * A phone capture does not belong in a landscape frame: cropped to a card tile
+ * it shows nothing but the status bar, and letterboxed into a wide banner it
+ * reads as a web project with a stamp in the middle. Portrait covers get their
+ * own framing — staged as a device, tall on the case study, running off the
+ * bottom edge on the card.
+ */
+const portrait = cover ? cover.height > cover.width : false
+
+const alt = coverAlt ?? `${title} screenshot`
+---
+
+{
+  !cover && (
+    <ProjectGlyph
+      glyph={glyph}
+      class:list={[
+        context === 'card' ? 'aspect-[200/120]' : 'aspect-[200/70]',
+        className,
+      ]}
+    />
+  )
+}
+
+{
+  cover && context === 'card' && !portrait && (
+    <Image
+      src={cover}
+      alt={alt}
+      widths={widths}
+      sizes={sizes}
+      loading={loading}
+      decoding="async"
+      class:list={['aspect-[200/120] w-full object-cover object-top', className]}
+    />
+  )
+}
+
+{
+  cover && context === 'card' && portrait && (
+    <div class:list={['stage relative aspect-[200/120] overflow-hidden', className]}>
+      <Image
+        src={cover}
+        alt={alt}
+        widths={widths}
+        sizes={sizes}
+        loading={loading}
+        decoding="async"
+        class="absolute left-1/2 top-7 w-[34%] -translate-x-1/2 rounded-[0.6rem] shadow-2xl shadow-black/40 ring-1 ring-black/20"
+      />
+    </div>
+  )
+}
+
+{
+  cover && context === 'detail' && !portrait && (
+    <Image
+      src={cover}
+      alt={alt}
+      widths={widths}
+      sizes={sizes}
+      loading={loading}
+      decoding="async"
+      class:list={['w-full', className]}
+    />
+  )
+}
+
+{
+  cover && context === 'detail' && portrait && (
+    <div class:list={['stage grid place-items-center px-6 py-10 sm:py-14', className]}>
+      <Image
+        src={cover}
+        alt={alt}
+        widths={[320, 640]}
+        sizes="(min-width: 640px) 20rem, 70vw"
+        loading={loading}
+        decoding="async"
+        class="w-full max-w-[15rem] rounded-[1.4rem] shadow-2xl shadow-black/50 ring-1 ring-black/20 sm:max-w-[19rem]"
+      />
+    </div>
+  )
+}
+
+<style>
+  /* Same wash the glyphs sit on, so a staged capture reads as a product shot
+     rather than an image that failed to fill its box. */
+  .stage {
+    background:
+      radial-gradient(
+        120% 100% at 50% 0%,
+        var(--color-raised) 0%,
+        var(--color-surface) 55%,
+        var(--color-canvas) 100%
+      );
+  }
+</style>
